@@ -2,7 +2,7 @@
   "name": "agent-ui-react",
   "module": "lib/index.js",
   "types": "lib/index.d.ts",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "scripts": {
     "clean": "rimraf lib",
     "build": "npm run clean && tsc -p tsconfig.prod.json",
@@ -28,5 +28,23 @@
   },
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/applicationsuite/agent-ui.git"
+  },
+  "keywords": [
+    "agent-ui",
+    "agent-ui-react",
+    "react-agent-ui",
+    "agent-ui-react",
+    "react-agent-ui",
+    "ag-ui",
+    "ag-ui-react",
+    "ag-ui-controls",
+    "react-ag-ui",
+    "agent-ui-controls",
+    "react-agent-ui-controls",
+    "agent-ui-react-controls"
+  ]
 }
