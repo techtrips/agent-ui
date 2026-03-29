@@ -18,7 +18,7 @@ For detailed release notes, please refer to our [version history](docs/ReleaseNo
 
 ## Code Repository
 
-https://github.com/applicationsuite/agent-ui/agent-ui-react
+https://github.com/applicationsuite/agent-ui
 
 ## Authors and Contributors
 
