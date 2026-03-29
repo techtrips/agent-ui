@@ -1,36 +1,32 @@
-# Rspack project
+# agent-ui-react
 
-## Setup
+This is an UI controls library created on the design language of bootstrap and Microsoft fluent UI
 
-Install the dependencies:
 
-```bash
-npm install
+## Installation
+
+The package can be installed as an npm package using the following command:
+
+```
+ npm install --save agent-ui-react@latest
 ```
 
-## Get started
+## Components
 
-Start the dev server, and the app will be available at <http://localhost:8080>.
 
-```bash
-npm run dev
-```
+## Release Notes
 
-Build the app for production:
+For detailed release notes, please refer to our [version history](docs/ReleaseNotes.md)
 
-```bash
-npm run build
-```
+## Code Repository
 
-Preview the production build locally:
+https://github.com/applicationsuite/agent-ui/agent-ui-react
 
-```bash
-npm run preview
-```
+## Authors and Contributors
 
-## Learn more
+The project is being initially developed and maintained by Chinmaya Kumar Panda.
 
-To learn more about Rspack, check out the following resources:
+The contribution to this libray is open, so any contribution is very welcome.
+We welcome you to raise issues, add your new requirements or use cases, so that we will close them asap.
 
-- [Rspack documentation](https://rspack.rs) - explore Rspack features and APIs.
-- [Rspack GitHub repository](https://github.com/web-infra-dev/rspack) - your feedback and contributions are welcome!
+For contributing to this library, please [contact us](mailto:visit.chinmaya@gmail.com).
