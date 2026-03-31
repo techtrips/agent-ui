@@ -8,9 +8,9 @@ A monorepo of framework-specific component libraries for building **agent-based 
 
 ## Packages
 
-| Package | Description | Version | Docs |
-|---------|-------------|---------|------|
-| [agent-ui-react](./agent-ui-react) | React components for agent UIs — AIAssistant, AuthProvider, TemplateRenderer, TemplateDesigner | ![version](https://img.shields.io/badge/version-0.1.1-blue) | [README](./agent-ui-react/README.md) |
+| Package | Description | Docs |
+|---------|-------------|------|
+| [agent-ui-react](./agent-ui-react) | React components for agent UIs — AIAssistant, AuthProvider, TemplateRenderer, TemplateDesigner | [README](./agent-ui-react/README.md) |
 
 ---
 
