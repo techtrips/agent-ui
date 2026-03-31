@@ -1,7 +1,7 @@
 # agent-ui-react
 
-[![version](https://img.shields.io/badge/version-0.1.2-blue.svg)](docs/ChangeLog.md)
-[![license](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![version](https://img.shields.io/badge/version-0.1.3-blue.svg)](https://github.com/applicationsuite/agent-ui/blob/main/agent-ui-react/docs/ChangeLog.md)
+[![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/applicationsuite/agent-ui/blob/main/agent-ui-react/LICENSE)
 
 A React component library for building agent-based user interfaces. Provides production-ready components for conversational AI experiences, authentication, and template-driven data rendering — all built on [Fluent UI](https://react.fluentui.dev/) and the [AG-UI protocol](https://github.com/ag-ui-protocol).
 
@@ -68,10 +68,10 @@ function App() {
 
 | Component | Description | Documentation |
 |-----------|-------------|---------------|
-| **AuthProvider** | Wraps your app to provide authenticated user info and role-based permissions via React Context. Decodes JWT tokens and fetches user roles from the API. | [AuthProvider Docs](docs/AuthProvider.md) |
-| **AIAssistant** | Full-featured conversational AI chat UI with multi-agent support, conversation history, starter prompts, templates, and AG-UI protocol integration. | [AIAssistant Docs](docs/AIAssistant.md) |
-| **TemplateRenderer** | Renders JSON-defined `ITemplate` objects against server data. Displays structured, data-bound UI cards with support for 8 control types and data binding. | [TemplateRenderer Docs](docs/TemplateRenderer.md) |
-| **TemplateDesigner** | Visual drag-and-drop editor for creating and editing `ITemplate` JSON definitions. Includes property panel, live preview, JSON editing, and data source binding. | [TemplateDesigner Docs](docs/TemplateDesigner.md) |
+| **AuthProvider** | Wraps your app to provide authenticated user info and role-based permissions via React Context. Decodes JWT tokens and fetches user roles from the API. | [AuthProvider Docs](https://github.com/applicationsuite/agent-ui/blob/main/agent-ui-react/docs/AuthProvider.md) |
+| **AIAssistant** | Full-featured conversational AI chat UI with multi-agent support, conversation history, starter prompts, templates, and AG-UI protocol integration. | [AIAssistant Docs](https://github.com/applicationsuite/agent-ui/blob/main/agent-ui-react/docs/AIAssistant.md) |
+| **TemplateRenderer** | Renders JSON-defined `ITemplate` objects against server data. Displays structured, data-bound UI cards with support for 8 control types and data binding. | [TemplateRenderer Docs](https://github.com/applicationsuite/agent-ui/blob/main/agent-ui-react/docs/TemplateRenderer.md) |
+| **TemplateDesigner** | Visual drag-and-drop editor for creating and editing `ITemplate` JSON definitions. Includes property panel, live preview, JSON editing, and data source binding. | [TemplateDesigner Docs](https://github.com/applicationsuite/agent-ui/blob/main/agent-ui-react/docs/TemplateDesigner.md) |
 
 ---
 
@@ -103,7 +103,7 @@ function App() {
 
 ## Release Notes
 
-See the full [version history and changelog](docs/ChangeLog.md).
+See the full [version history and changelog](https://github.com/applicationsuite/agent-ui/blob/main/agent-ui-react/docs/ChangeLog.md).
 
 ---
 
@@ -129,6 +129,6 @@ Developed and maintained by [Tech Trips](https://github.com/techtrips).
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE).
+This project is licensed under the [MIT License](https://github.com/applicationsuite/agent-ui/blob/main/agent-ui-react/LICENSE).
 
 Copyright © 2026 Tech Trips

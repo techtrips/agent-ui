@@ -8,9 +8,26 @@ All notable changes to `agent-ui-react` are documented here. The format follows 
 
 | Version | Date | Highlights |
 |---------|------|------------|
+| [0.1.3](#013--2026-03-31) | 2026-03-31 | - |
 | [0.1.2](#012--2026-03-31) | 2026-03-31 | Packaging & documentation fixes |
 | [0.1.1](#011--2026-03-31) | 2026-03-31 | Packaging & documentation fixes |
 | [0.1.0](#010--2026-03-31) | 2026-03-31 | Initial release — AuthProvider, AIAssistant, TemplateRenderer, TemplateDesigner |
+
+---
+
+## [0.1.3] — 2026-03-31
+
+### Added
+
+- _Update this section before publishing_
+
+### Changed
+
+- _Update this section before publishing_
+
+### Fixed
+
+- _Update this section before publishing_
 
 ---
 
