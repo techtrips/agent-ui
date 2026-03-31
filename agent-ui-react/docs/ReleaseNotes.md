@@ -8,7 +8,23 @@ All notable changes to `agent-ui-react` are documented here. The format follows 
 
 | Version | Date | Highlights |
 |---------|------|------------|
+| [0.1.1](#011--2026-03-31) | 2026-03-31 | Packaging & documentation fixes |
 | [0.1.0](#010--2026-03-31) | 2026-03-31 | Initial release — AuthProvider, AIAssistant, TemplateRenderer, TemplateDesigner |
+
+---
+
+## [0.1.1] — 2026-03-31
+
+### Fixed
+
+- Fixed `.npmignore` to exclude `rspack.config.ts` from the published package.
+- Added `lib/` to `.gitignore` to prevent build output from being committed.
+
+### Changed
+
+- Comprehensive README with badges, installation, quick start, component table, dependencies, browser support, contributing guidelines, and license.
+- Component documentation split into individual files under `docs/` (AuthProvider, AIAssistant, TemplateRenderer, TemplateDesigner).
+- Release notes restructured with version history summary table and anchor links.
 
 ---
 
