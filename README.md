@@ -1,32 +1,67 @@
 # agent-ui
 
-This is an UI controls library created on the design language of bootstrap and Microsoft fluent UI
+[![license](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
+A monorepo of framework-specific component libraries for building **agent-based user interfaces** — conversational AI assistants, authentication, and template-driven data rendering.
 
-## Installation
+---
 
-The package can be installed as an npm package using the following command:
+## Packages
+
+| Package | Description | Version | Docs |
+|---------|-------------|---------|------|
+| [agent-ui-react](./agent-ui-react) | React components for agent UIs — AIAssistant, AuthProvider, TemplateRenderer, TemplateDesigner | ![version](https://img.shields.io/badge/version-0.1.1-blue) | [README](./agent-ui-react/README.md) |
+
+---
+
+## Getting Started
+
+```bash
+# Install the React package
+npm install agent-ui-react
+```
+
+Then follow the [Quick Start](./agent-ui-react/README.md#quick-start) guide in the package README.
+
+---
+
+## Repository Structure
 
 ```
- npm install --save agent-ui-react@latest
+agent-ui/
+├── agent-ui-react/        # React component library (npm: agent-ui-react)
+│   ├── src/               # Source code
+│   ├── lib/               # Build output (not committed)
+│   ├── docs/              # Component documentation
+│   │   ├── AIAssistant.md
+│   │   ├── AuthProvider.md
+│   │   ├── TemplateDesigner.md
+│   │   ├── TemplateRenderer.md
+│   │   └── ReleaseNotes.md
+│   └── package.json
+├── LICENSE
+└── README.md              # ← You are here
 ```
 
-## Components
+---
 
+## Contributing
 
-## Release Notes
+1. Fork this repository
+2. Create a feature branch (`git checkout -b feature/my-feature`)
+3. Commit your changes (`git commit -m 'Add my feature'`)
+4. Push to the branch (`git push origin feature/my-feature`)
+5. Open a Pull Request
 
-For detailed release notes, please refer to our [version history](docs/ReleaseNotes.md)
-
-## Code Repository
-
-https://github.com/applicationsuite/agent-ui/agent-ui-react
+---
 
 ## Authors and Contributors
 
-The project is being initially developed and maintained by Chinmaya Kumar Panda.
+Developed and maintained by [Tech Trips](https://github.com/techtrips).
 
-The contribution to this libray is open, so any contribution is very welcome.
-We welcome you to raise issues, add your new requirements or use cases, so that we will close them asap.
+---
 
-For contributing to this library, please [contact us](mailto:visit.chinmaya@gmail.com).
+## License
+
+This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
+

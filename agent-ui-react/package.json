@@ -2,14 +2,15 @@
   "name": "agent-ui-react",
   "module": "lib/index.js",
   "types": "lib/index.d.ts",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "scripts": {
     "clean": "rimraf lib",
     "build": "npm run clean && tsc -p tsconfig.prod.json",
     "dev": "rspack dev",
     "lint": "biome check .",
     "format": "biome format .",
-    "lint-fix": "npx biome check . --write"
+    "lint-fix": "npx biome check . --write",
+    "postversion": "node scripts/postversion.js && git add README.md docs/ChangeLog.md && git commit --amend --no-edit"
   },
   "dependencies": {
     "@ag-ui/client": "^0.0.48",

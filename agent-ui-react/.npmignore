@@ -16,3 +16,4 @@ rspack.config.ts
 package-lock.json
 tsconfig.json
 tsconfig.prod.json
+scripts
