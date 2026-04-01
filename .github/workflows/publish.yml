@@ -1,0 +1,55 @@
+name: Publish to npm
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'agent-ui-react/package.json'
+
+defaults:
+  run:
+    working-directory: agent-ui-react
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: https://registry.npmjs.org
+
+      - name: Check if version is already published
+        id: version-check
+        run: |
+          LOCAL_VERSION=$(node -p "require('./package.json').version")
+          PACKAGE_NAME=$(node -p "require('./package.json').name")
+          echo "version=$LOCAL_VERSION" >> "$GITHUB_OUTPUT"
+          if npm view "${PACKAGE_NAME}@${LOCAL_VERSION}" version 2>/dev/null; then
+            echo "published=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "published=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Install dependencies
+        if: steps.version-check.outputs.published == 'false'
+        run: npm ci
+
+      - name: Build
+        if: steps.version-check.outputs.published == 'false'
+        run: npm run build
+
+      - name: Publish to npm
+        if: steps.version-check.outputs.published == 'false'
+        run: npm publish --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
