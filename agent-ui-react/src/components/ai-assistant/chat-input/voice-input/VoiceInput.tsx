@@ -7,9 +7,9 @@ import {
 } from "@fluentui/react-icons";
 import { useSpeechRecognition } from "./useSpeechRecognition";
 import { useVoiceInputStyles } from "./VoiceInput.styles";
-import type { VoiceInputHandle, VoiceInputProps } from "./VoiceInput.types";
+import type { IVoiceInputHandle, IVoiceInputProps } from "./VoiceInput.types";
 
-export const VoiceInput = forwardRef<VoiceInputHandle, VoiceInputProps>(
+export const VoiceInput = forwardRef<IVoiceInputHandle, IVoiceInputProps>(
 	({ onStartRecording, onStopRecording, onTranscriptChange }, ref) => {
 		const classes = useVoiceInputStyles();
 		const transcriptRef = useRef("");

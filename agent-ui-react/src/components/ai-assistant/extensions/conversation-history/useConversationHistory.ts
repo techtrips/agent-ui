@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useAIAssistantContext } from "../../AIAssistantContext";
-import type { Conversation } from "../../AIAssistant.types";
+import type { IConversation } from "../../AIAssistant.types";
 
 export const useConversationHistory = () => {
 	const { service, newChat, setMessages } = useAIAssistantContext();
-	const [conversations, setConversations] = useState<Conversation[]>([]);
+	const [conversations, setConversations] = useState<IConversation[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | undefined>();
 	const [searchQuery, setSearchQuery] = useState("");
@@ -37,23 +37,13 @@ export const useConversationHistory = () => {
 	}, [conversations, searchQuery]);
 
 	const handleSelect = useCallback(
-		async (conversation: Conversation, onClose: () => void) => {
+		async (conversation: IConversation, onClose: () => void) => {
 			if (!service) return;
 			const result = await service.getConversationMessages(
 				conversation.threadId,
 			);
 			if (result.data) {
-				const mapped = result.data
-					.filter((m) => m.role !== "system")
-					.map((m) => ({
-						id:
-							m.id ??
-							`msg-${Date.now()}-${Math.random().toString(36).slice(2)}`,
-						role: m.role as "user" | "assistant",
-						content: m.messageText,
-						timestamp: m.timestamp,
-					}));
-				setMessages(mapped);
+				setMessages(result.data);
 			}
 			onClose();
 		},

@@ -7,13 +7,13 @@ import {
 	Search20Regular,
 } from "@fluentui/react-icons";
 import { defineExtension } from "../types";
-import type { ExtensionProps } from "../types";
+import type { IExtensionProps } from "../types";
 import { PageLayout } from "../shared/page-layout";
 import { useTemplateRendererStyles } from "./TemplateRenderer.styles";
 import { useTemplateRenderer } from "./useTemplateRenderer";
 import { TemplateForm } from "./TemplateForm";
 
-const TemplateRendererPanel = ({ onClose }: ExtensionProps) => {
+const TemplateRendererPanel = ({ onClose }: IExtensionProps) => {
 	const classes = useTemplateRendererStyles();
 	const {
 		service,

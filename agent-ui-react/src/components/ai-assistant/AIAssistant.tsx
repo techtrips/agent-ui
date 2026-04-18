@@ -14,7 +14,7 @@ import {
 	PanelLeftRegular,
 	SparkleRegular,
 } from "@fluentui/react-icons";
-import type { AIAssistantProps } from "./AIAssistant.types";
+import type { IAIAssistantProps } from "./AIAssistant.types";
 import { AIAssistantContext } from "./AIAssistantContext";
 import { useAIAssistantStyles } from "./AIAssistant.styles";
 import { AIAssistantPermission } from "./AIAssistant.types";
@@ -24,7 +24,7 @@ import { ChatArea } from "./chat-area";
 import { ChatInput } from "./chat-input";
 import { StarterPromptChips } from "./starter-prompt-chips";
 import { SidebarChatHistory } from "./sidebar-chat-history";
-import type { StarterPrompt } from "./AIAssistant.types";
+import type { IStarterPrompt } from "./AIAssistant.types";
 
 const EXTENSION_PERMISSIONS: Record<string, AIAssistantPermission> = {
 	prompts: AIAssistantPermission.ManageStarterPrompts,
@@ -46,7 +46,7 @@ export const AIAssistant = ({
 	permissions = [AIAssistantPermission.View],
 	agents,
 	onClose,
-}: AIAssistantProps) => {
+}: IAIAssistantProps) => {
 	const classes = useAIAssistantStyles();
 	const [isFullScreen, setIsFullScreen] = useState(defaultFullScreen);
 	const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
@@ -61,7 +61,7 @@ export const AIAssistant = ({
 		newChat,
 	} = useChatState(adapter);
 
-	const [starterPrompts, setStarterPrompts] = useState<StarterPrompt[]>([]);
+	const [starterPrompts, setStarterPrompts] = useState<IStarterPrompt[]>([]);
 
 	const agentNames = useMemo(() => agents?.map((a) => a.name), [agents]);
 

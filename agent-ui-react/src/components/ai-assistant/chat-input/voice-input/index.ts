@@ -1,2 +1,5 @@
 export { VoiceInput } from "./VoiceInput";
-export type { VoiceInputHandle, VoiceInputProps } from "./VoiceInput.types";
+export type {
+	IVoiceInputHandle as VoiceInputHandle,
+	IVoiceInputProps as VoiceInputProps,
+} from "./VoiceInput.types";

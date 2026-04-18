@@ -4,13 +4,13 @@ import {
 	Search20Regular,
 } from "@fluentui/react-icons";
 import { defineExtension } from "../types";
-import type { ExtensionProps } from "../types";
+import type { IExtensionProps } from "../types";
 import { PageLayout } from "../shared/page-layout";
 import { useConversationHistoryStyles } from "./ConversationHistory.styles";
 import { useConversationHistory } from "./useConversationHistory";
 import { getTimeAgo } from "./ConversationHistory.utils";
 
-const ConversationHistoryPanel = ({ onClose }: ExtensionProps) => {
+const ConversationHistoryPanel = ({ onClose }: IExtensionProps) => {
 	const classes = useConversationHistoryStyles();
 	const {
 		service,

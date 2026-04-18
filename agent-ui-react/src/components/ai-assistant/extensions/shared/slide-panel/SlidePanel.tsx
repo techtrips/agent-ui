@@ -1,6 +1,6 @@
 import { DismissRegular } from "@fluentui/react-icons";
 import { useSlidePanelStyles } from "./SlidePanel.styles";
-import type { SlidePanelProps } from "./SlidePanel.types";
+import type { ISlidePanelProps } from "./SlidePanel.types";
 
 export const SlidePanel = ({
 	title,
@@ -10,7 +10,7 @@ export const SlidePanel = ({
 	disabled = false,
 	error,
 	onClose,
-}: SlidePanelProps) => {
+}: ISlidePanelProps) => {
 	const classes = useSlidePanelStyles();
 	const {
 		submitLabel = "Submit",

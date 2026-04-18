@@ -4,20 +4,20 @@ import {
 	useState,
 	type KeyboardEvent as ReactKeyboardEvent,
 } from "react";
-import type { StarterPrompt } from "../../AIAssistant.types";
+import type { IStarterPrompt } from "../../AIAssistant.types";
 import {
 	extractParameters,
 	normalizeList,
 	initialFormState,
-	type StarterPromptFormState,
+	type IStarterPromptFormState,
 } from "./StarterPrompts.models";
 
 export const useStarterPromptForm = (
-	target: StarterPrompt | null,
+	target: IStarterPrompt | null,
 	agents: string[],
-	onSave: (prompt: StarterPrompt) => Promise<void>,
+	onSave: (prompt: IStarterPrompt) => Promise<void>,
 ) => {
-	const [form, setForm] = useState<StarterPromptFormState>(
+	const [form, setForm] = useState<IStarterPromptFormState>(
 		initialFormState(agents),
 	);
 	const [paramInput, setParamInput] = useState("");
@@ -45,7 +45,7 @@ export const useStarterPromptForm = (
 	const isValid =
 		form.title.trim() && form.prompt.trim() && form.agentName.trim();
 
-	const updateField = (field: keyof StarterPromptFormState, value: string) =>
+	const updateField = (field: keyof IStarterPromptFormState, value: string) =>
 		setForm((prev) => ({ ...prev, [field]: value }));
 
 	const handlePromptChange = (value: string) => {

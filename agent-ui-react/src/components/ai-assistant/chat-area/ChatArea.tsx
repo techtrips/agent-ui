@@ -4,7 +4,7 @@ import { ChatMessageBubble } from "./chat-message-bubble";
 import { useChatMessageBubbleStyles } from "./chat-message-bubble";
 import { useAutoScroll } from "./useAutoScroll";
 import { useChatAreaStyles } from "./ChatArea.styles";
-import type { ChatAreaProps } from "./ChatArea.types";
+import type { IChatAreaProps } from "./ChatArea.types";
 
 const TYPING_DOT_CLASSES = ["typingDot1", "typingDot2", "typingDot3"] as const;
 
@@ -13,7 +13,7 @@ export const ChatArea = ({
 	isStreaming,
 	streamingText,
 	renderMessage,
-}: ChatAreaProps) => {
+}: IChatAreaProps) => {
 	const classes = useChatAreaStyles();
 	const msgClasses = useChatMessageBubbleStyles();
 	const { scrollRef } = useAutoScroll(messages.length);

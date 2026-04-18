@@ -1,12 +1,12 @@
 import { SparkleRegular } from "@fluentui/react-icons";
 import { useChatMessageBubbleStyles } from "./ChatMessageBubble.styles";
 import { formatTime } from "./ChatMessageBubble.utils";
-import type { ChatMessageBubbleProps } from "./ChatMessageBubble.types";
+import type { IChatMessageBubbleProps } from "./ChatMessageBubble.types";
 
 export const ChatMessageBubble = ({
 	message,
 	renderMessage: CustomRenderer,
-}: ChatMessageBubbleProps) => {
+}: IChatMessageBubbleProps) => {
 	const classes = useChatMessageBubbleStyles();
 
 	if (message.role === "user") {

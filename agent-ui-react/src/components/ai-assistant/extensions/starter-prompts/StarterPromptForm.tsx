@@ -8,16 +8,16 @@ import {
 	TextDescription20Regular,
 } from "@fluentui/react-icons";
 import { SlidePanel } from "../shared/slide-panel";
-import type { StarterPrompt } from "../../AIAssistant.types";
+import type { IStarterPrompt } from "../../AIAssistant.types";
 import { useStarterPromptFormStyles } from "./StarterPromptForm.styles";
 import { useStarterPromptForm } from "./useStarterPromptForm";
 
 interface StarterPromptFormProps {
-	target: StarterPrompt | null;
+	target: IStarterPrompt | null;
 	agents: string[];
 	saving: boolean;
 	error: string;
-	onSave: (p: StarterPrompt) => Promise<void>;
+	onSave: (p: IStarterPrompt) => Promise<void>;
 	onClose: () => void;
 }
 

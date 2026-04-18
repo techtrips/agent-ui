@@ -1,25 +1,79 @@
-import type { AIAssistantService, Entity } from "./AIAssistant.types";
+import type {
+	IChatMessage,
+	IConversation,
+	IStarterPrompt,
+	ITemplate,
+} from "./AIAssistant.types";
 
-export interface CreateServiceOptions {
+/* ── Service contracts ── */
+
+export interface IEntity<T> {
+	data?: T;
+	loading?: boolean;
+	error?: string;
+}
+
+export interface IStarterPromptService {
+	getStarterPrompts: (
+		agentNames?: string[],
+	) => Promise<IEntity<IStarterPrompt[]>>;
+	addStarterPrompt: (
+		prompt: IStarterPrompt,
+	) => Promise<IEntity<IStarterPrompt>>;
+	updateStarterPrompt: (
+		prompt: IStarterPrompt,
+	) => Promise<IEntity<IStarterPrompt>>;
+	deleteStarterPrompt: (
+		promptId: string,
+		agentName?: string,
+	) => Promise<IEntity<void>>;
+}
+
+export interface ITemplateService {
+	getTemplates: () => Promise<IEntity<ITemplate[]>>;
+	getTemplateById: (templateId: string) => Promise<IEntity<ITemplate>>;
+	addTemplate: (template: ITemplate) => Promise<IEntity<ITemplate>>;
+	updateTemplate: (template: ITemplate) => Promise<IEntity<ITemplate>>;
+	deleteTemplate: (templateId: string) => Promise<IEntity<void>>;
+}
+
+export interface IConversationService {
+	getConversationHistory: () => Promise<IEntity<IConversation[]>>;
+	getConversationMessages: (
+		threadId: string,
+	) => Promise<IEntity<IChatMessage[]>>;
+}
+
+export interface IAIAssistantService
+	extends IStarterPromptService,
+		ITemplateService,
+		IConversationService {}
+
+export interface ICreateServiceOptions {
 	baseUrl: string;
 	getToken: () => Promise<string>;
 }
 
-export function createAssistantService(
-	options: CreateServiceOptions,
-): AIAssistantService {
-	const { baseUrl, getToken } = options;
+export class AIAssistantService implements IAIAssistantService {
+	private readonly baseUrl: string;
+	private readonly getToken: () => Promise<string>;
 
-	const fetchApi = async <T>(
+	constructor(options: ICreateServiceOptions) {
+		this.baseUrl = options.baseUrl;
+		this.getToken = options.getToken;
+	}
+
+	private async fetchApi<T>(
 		path: string,
 		method: "GET" | "POST" | "PUT" | "DELETE",
 		body?: unknown,
-	): Promise<Entity<T>> => {
-		if (!baseUrl) return { error: "API base URL is required.", loading: false };
+	): Promise<IEntity<T>> {
+		if (!this.baseUrl)
+			return { error: "API base URL is required.", loading: false };
 		try {
-			const token = await getToken();
+			const token = await this.getToken();
 			if (!token) return { error: "Access token is required.", loading: false };
-			const res = await fetch(`${baseUrl}${path}`, {
+			const res = await fetch(`${this.baseUrl}${path}`, {
 				method,
 				headers: {
 					Authorization: `Bearer ${token}`,
@@ -36,39 +90,84 @@ export function createAssistantService(
 			const msg = err instanceof Error ? err.message : "Unknown error";
 			return { error: msg, loading: false };
 		}
-	};
+	}
 
-	return {
-		// Starter Prompts
-		getStarterPrompts: (agentNames) =>
-			fetchApi("/starter-prompts/search", "POST", {
-				agentNames: agentNames ?? [],
-				tags: [],
-			}),
-		addStarterPrompt: (prompt) => fetchApi("/starter-prompts", "POST", prompt),
-		updateStarterPrompt: (prompt) =>
-			fetchApi(
-				`/starter-prompts/${prompt.id}?agentName=${encodeURIComponent(prompt.agentName ?? "")}`,
-				"PUT",
-				prompt,
-			),
-		deleteStarterPrompt: (promptId, agentName) =>
-			fetchApi(
-				`/starter-prompts/${promptId}${agentName ? `?agentName=${encodeURIComponent(agentName)}` : ""}`,
-				"DELETE",
-			),
+	// Starter Prompts
+	getStarterPrompts(agentNames?: string[]): Promise<IEntity<IStarterPrompt[]>> {
+		return this.fetchApi("/starter-prompts/search", "POST", {
+			agentNames: agentNames ?? [],
+			tags: [],
+		});
+	}
 
-		// Templates
-		getTemplates: () => fetchApi("/templates", "GET"),
-		getTemplateById: (id) => fetchApi(`/templates/${id}`, "GET"),
-		addTemplate: (template) => fetchApi("/templates", "POST", template),
-		updateTemplate: (template) =>
-			fetchApi(`/templates/${template.id}`, "PUT", template),
-		deleteTemplate: (id) => fetchApi(`/templates/${id}`, "DELETE"),
+	addStarterPrompt(prompt: IStarterPrompt): Promise<IEntity<IStarterPrompt>> {
+		return this.fetchApi("/starter-prompts", "POST", prompt);
+	}
 
-		// Conversation History
-		getConversationHistory: () => fetchApi("/conversations", "GET"),
-		getConversationMessages: (threadId) =>
-			fetchApi(`/conversations/${threadId}/messages`, "GET"),
-	};
+	updateStarterPrompt(
+		prompt: IStarterPrompt,
+	): Promise<IEntity<IStarterPrompt>> {
+		return this.fetchApi(
+			`/starter-prompts/${prompt.id}?agentName=${encodeURIComponent(prompt.agentName ?? "")}`,
+			"PUT",
+			prompt,
+		);
+	}
+
+	deleteStarterPrompt(
+		promptId: string,
+		agentName?: string,
+	): Promise<IEntity<void>> {
+		return this.fetchApi(
+			`/starter-prompts/${promptId}${agentName ? `?agentName=${encodeURIComponent(agentName)}` : ""}`,
+			"DELETE",
+		);
+	}
+
+	// Templates
+	getTemplates(): Promise<IEntity<ITemplate[]>> {
+		return this.fetchApi("/templates", "GET");
+	}
+
+	getTemplateById(templateId: string): Promise<IEntity<ITemplate>> {
+		return this.fetchApi(`/templates/${templateId}`, "GET");
+	}
+
+	addTemplate(template: ITemplate): Promise<IEntity<ITemplate>> {
+		return this.fetchApi("/templates", "POST", template);
+	}
+
+	updateTemplate(template: ITemplate): Promise<IEntity<ITemplate>> {
+		return this.fetchApi(`/templates/${template.id}`, "PUT", template);
+	}
+
+	deleteTemplate(templateId: string): Promise<IEntity<void>> {
+		return this.fetchApi(`/templates/${templateId}`, "DELETE");
+	}
+
+	// Conversation History
+	getConversationHistory(): Promise<IEntity<IConversation[]>> {
+		return this.fetchApi("/conversations", "GET");
+	}
+
+	async getConversationMessages(
+		threadId: string,
+	): Promise<IEntity<IChatMessage[]>> {
+		const result = await this.fetchApi<
+			{ id?: string; messageText: string; role: string; timestamp: string }[]
+		>(`/conversations/${threadId}/messages`, "GET");
+		if (result.error || !result.data)
+			return { error: result.error, loading: result.loading };
+		return {
+			data: result.data
+				.filter((m) => m.role !== "system")
+				.map((m) => ({
+					id:
+						m.id ?? `msg-${Date.now()}-${Math.random().toString(36).slice(2)}`,
+					role: m.role as "user" | "assistant",
+					content: m.messageText,
+					timestamp: m.timestamp,
+				})),
+		};
+	}
 }

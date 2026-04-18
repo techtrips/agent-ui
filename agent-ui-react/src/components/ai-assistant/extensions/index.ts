@@ -1,7 +1,7 @@
 export type {
 	AIAssistantExtension,
-	ExtensionProps,
-	ExtensionMeta,
+	IExtensionProps as ExtensionProps,
+	IExtensionMeta as ExtensionMeta,
 } from "./types";
 export { defineExtension } from "./types";
 export { ConversationHistory } from "./conversation-history";

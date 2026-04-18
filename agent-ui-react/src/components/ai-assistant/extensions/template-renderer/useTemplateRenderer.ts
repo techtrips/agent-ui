@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { useAIAssistantContext } from "../../AIAssistantContext";
 import { AIAssistantPermission } from "../../AIAssistant.types";
 import { checkPermission } from "../../AIAssistant.utils";
-import type { Template } from "../../AIAssistant.types";
+import type { ITemplate } from "../../AIAssistant.types";
 
 export const useTemplateRenderer = () => {
 	const { service, permissions } = useAIAssistantContext();
@@ -11,18 +11,18 @@ export const useTemplateRenderer = () => {
 		AIAssistantPermission.ManageTemplates,
 	);
 
-	const [templates, setTemplates] = useState<Template[]>([]);
+	const [templates, setTemplates] = useState<ITemplate[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | undefined>();
 	const [searchQuery, setSearchQuery] = useState("");
 
-	const [panelTarget, setPanelTarget] = useState<Template | null | undefined>(
+	const [panelTarget, setPanelTarget] = useState<ITemplate | null | undefined>(
 		null,
 	);
 	const [saving, setSaving] = useState(false);
 	const [panelError, setPanelError] = useState("");
 
-	const [deleteTarget, setDeleteTarget] = useState<Template | null>(null);
+	const [deleteTarget, setDeleteTarget] = useState<ITemplate | null>(null);
 	const [deleting, setDeleting] = useState(false);
 	const [deleteError, setDeleteError] = useState("");
 
@@ -60,7 +60,7 @@ export const useTemplateRenderer = () => {
 	}, [templates, searchQuery]);
 
 	const handleSave = useCallback(
-		async (template: Template) => {
+		async (template: ITemplate) => {
 			if (!service) return;
 			setSaving(true);
 			setPanelError("");
@@ -109,7 +109,7 @@ export const useTemplateRenderer = () => {
 		setPanelTarget(undefined);
 	}, []);
 
-	const openEditPanel = useCallback((template: Template) => {
+	const openEditPanel = useCallback((template: ITemplate) => {
 		setPanelError("");
 		setPanelTarget(template);
 	}, []);
@@ -118,7 +118,7 @@ export const useTemplateRenderer = () => {
 		setPanelTarget(null);
 	}, []);
 
-	const openDeleteDialog = useCallback((template: Template) => {
+	const openDeleteDialog = useCallback((template: ITemplate) => {
 		setDeleteError("");
 		setDeleteTarget(template);
 	}, []);

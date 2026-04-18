@@ -1,6 +1,6 @@
 import { HttpAgent } from "@ag-ui/client";
 import type { RunAgentInput, Message, AgentSubscriber } from "@ag-ui/core";
-import type { ChatAdapter, ChatEvent, SendMessageRequest } from "./types";
+import type { IChatAdapter, ChatEvent, ISendMessageRequest } from "./types";
 
 interface AgUiAdapterOptions {
 	url: string;
@@ -31,11 +31,13 @@ class ExtendedHttpAgent extends HttpAgent {
  * const adapter = agUiAdapter({ url: "https://agent.example.com/agui", getToken });
  * ```
  */
-export const agUiAdapter = (options: AgUiAdapterOptions): ChatAdapter => {
+export const agUiAdapter = (options: AgUiAdapterOptions): IChatAdapter => {
 	let agent: ExtendedHttpAgent | undefined;
 
 	return {
-		async *sendMessage(request: SendMessageRequest): AsyncGenerator<ChatEvent> {
+		async *sendMessage(
+			request: ISendMessageRequest,
+		): AsyncGenerator<ChatEvent> {
 			if (!agent) {
 				agent = new ExtendedHttpAgent({ url: options.url });
 			}

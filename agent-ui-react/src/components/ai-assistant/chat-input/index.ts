@@ -1,2 +1,2 @@
 export { ChatInput } from "./ChatInput";
-export type { ChatInputProps } from "./ChatInput.types";
+export type { IChatInputProps as ChatInputProps } from "./ChatInput.types";

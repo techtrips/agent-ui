@@ -7,7 +7,7 @@ import {
 import { VoiceInput } from "./voice-input";
 import { useChatInputStyles } from "./ChatInput.styles";
 import { useChatInput } from "./useChatInput";
-import type { ChatInputProps } from "./ChatInput.types";
+import type { IChatInputProps } from "./ChatInput.types";
 
 export const ChatInput = ({
 	isStreaming,
@@ -15,7 +15,7 @@ export const ChatInput = ({
 	onAbort,
 	onFileSelect,
 	starterPrompts,
-}: ChatInputProps) => {
+}: IChatInputProps) => {
 	const classes = useChatInputStyles();
 	const {
 		value,

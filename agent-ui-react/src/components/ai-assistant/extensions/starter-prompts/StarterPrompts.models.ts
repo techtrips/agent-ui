@@ -9,7 +9,7 @@ export function normalizeList(values?: string[] | null): string[] {
 	return [...new Set(values.map((v) => v.trim()).filter(Boolean))];
 }
 
-export interface StarterPromptFormState {
+export interface IStarterPromptFormState {
 	title: string;
 	agentName: string;
 	prompt: string;
@@ -17,7 +17,9 @@ export interface StarterPromptFormState {
 	tags: string[];
 }
 
-export const initialFormState = (agents: string[]): StarterPromptFormState => ({
+export const initialFormState = (
+	agents: string[],
+): IStarterPromptFormState => ({
 	title: "",
 	agentName: agents[0] ?? "",
 	prompt: "",

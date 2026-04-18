@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
 import { DocumentRegular } from "@fluentui/react-icons";
 import { SlidePanel } from "../shared/slide-panel";
-import type { Template } from "../../AIAssistant.types";
+import type { ITemplate } from "../../AIAssistant.types";
 import { useTemplateFormStyles } from "./TemplateForm.styles";
 
 interface TemplateFormProps {
-	target: Template | null;
+	target: ITemplate | null;
 	availableAgents: string[];
 	saving: boolean;
 	error: string;
-	onSave: (t: Template) => Promise<void>;
+	onSave: (t: ITemplate) => Promise<void>;
 	onClose: () => void;
 }
 

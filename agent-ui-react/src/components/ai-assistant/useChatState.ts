@@ -1,15 +1,15 @@
 import { useCallback, useRef, useState } from "react";
-import type { ChatAdapter } from "./adapters/types";
-import type { ChatMessage } from "./AIAssistant.types";
+import type { IChatAdapter } from "./adapters/types";
+import type { IChatMessage } from "./AIAssistant.types";
 
 let idCounter = 0;
 const nextId = () => `msg-${++idCounter}-${Date.now()}`;
 const nextThreadId = () =>
 	`thread-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
 
-export interface UseChatStateResult {
-	messages: ChatMessage[];
-	setMessages: (messages: ChatMessage[]) => void;
+export interface IUseChatStateResult {
+	messages: IChatMessage[];
+	setMessages: (messages: IChatMessage[]) => void;
 	threadId: string;
 	isStreaming: boolean;
 	streamingText: string;
@@ -19,8 +19,8 @@ export interface UseChatStateResult {
 	newChat: () => void;
 }
 
-export const useChatState = (adapter: ChatAdapter): UseChatStateResult => {
-	const [messages, setMessages] = useState<ChatMessage[]>([]);
+export const useChatState = (adapter: IChatAdapter): IUseChatStateResult => {
+	const [messages, setMessages] = useState<IChatMessage[]>([]);
 	const [threadId, setThreadId] = useState(() => nextThreadId());
 	const [isStreaming, setIsStreaming] = useState(false);
 	const [streamingText, setStreamingText] = useState("");
@@ -36,7 +36,7 @@ export const useChatState = (adapter: ChatAdapter): UseChatStateResult => {
 		(text: string, model?: string) => {
 			if (!text.trim() || isStreaming) return;
 
-			const userMsg: ChatMessage = {
+			const userMsg: IChatMessage = {
 				id: nextId(),
 				role: "user",
 				content: text,

@@ -1,2 +1,2 @@
 export { ChatArea } from "./ChatArea";
-export type { ChatAreaProps } from "./ChatArea.types";
+export type { IChatAreaProps as ChatAreaProps } from "./ChatArea.types";

@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { VoiceInputHandle } from "./voice-input";
-import type { StarterPrompt } from "../AIAssistant.types";
+import type { IStarterPrompt } from "../AIAssistant.types";
 
 export const useChatInput = (
 	isStreaming: boolean,
 	onSend: (text: string) => void,
-	starterPrompts?: StarterPrompt[],
+	starterPrompts?: IStarterPrompt[],
 ) => {
 	const [value, setValue] = useState("");
 	const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -109,7 +109,7 @@ export const useChatInput = (
 	}, [filteredSuggestions.length]);
 
 	const handleSelectSuggestion = useCallback(
-		(sp: StarterPrompt) => {
+		(sp: IStarterPrompt) => {
 			setShowSuggestions(false);
 			const message = sp.prompt ?? sp.title;
 			onSend(message);

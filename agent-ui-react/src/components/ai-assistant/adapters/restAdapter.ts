@@ -1,4 +1,4 @@
-import type { ChatAdapter, ChatEvent, SendMessageRequest } from "./types";
+import type { IChatAdapter, ChatEvent, ISendMessageRequest } from "./types";
 
 interface RestAdapterOptions {
 	url: string;
@@ -25,11 +25,13 @@ const defaultExtractText = (json: unknown): string => {
  * const adapter = restAdapter({ url: "/api/chat", getToken });
  * ```
  */
-export const restAdapter = (options: RestAdapterOptions): ChatAdapter => {
+export const restAdapter = (options: RestAdapterOptions): IChatAdapter => {
 	const extractText = options.extractText ?? defaultExtractText;
 
 	return {
-		async *sendMessage(request: SendMessageRequest): AsyncGenerator<ChatEvent> {
+		async *sendMessage(
+			request: ISendMessageRequest,
+		): AsyncGenerator<ChatEvent> {
 			const headers: Record<string, string> = {
 				"Content-Type": "application/json",
 			};

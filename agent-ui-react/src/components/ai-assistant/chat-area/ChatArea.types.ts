@@ -1,9 +1,9 @@
 import type { ComponentType } from "react";
-import type { ChatMessage } from "../AIAssistant.types";
+import type { IChatMessage } from "../AIAssistant.types";
 
-export interface ChatAreaProps {
-	messages: ChatMessage[];
+export interface IChatAreaProps {
+	messages: IChatMessage[];
 	isStreaming: boolean;
 	streamingText: string;
-	renderMessage?: ComponentType<{ message: ChatMessage }>;
+	renderMessage?: ComponentType<{ message: IChatMessage }>;
 }

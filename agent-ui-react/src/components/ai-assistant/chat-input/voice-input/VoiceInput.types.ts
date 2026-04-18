@@ -1,9 +1,9 @@
-export interface VoiceInputProps {
+export interface IVoiceInputProps {
 	onStartRecording: () => void;
 	onStopRecording: (message: string) => void;
 	onTranscriptChange?: (message: string) => void;
 }
 
-export interface VoiceInputHandle {
+export interface IVoiceInputHandle {
 	stop: () => void;
 }

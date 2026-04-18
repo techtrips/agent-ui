@@ -8,7 +8,7 @@ export type ChatEvent =
 	| { type: "text-done"; content: string; data?: Record<string, unknown> }
 	| { type: "error"; message: string };
 
-export interface SendMessageRequest {
+export interface ISendMessageRequest {
 	threadId: string;
 	messageId: string;
 	message: string;
@@ -16,6 +16,6 @@ export interface SendMessageRequest {
 	abortSignal?: AbortSignal;
 }
 
-export interface ChatAdapter {
-	sendMessage(request: SendMessageRequest): AsyncIterable<ChatEvent>;
+export interface IChatAdapter {
+	sendMessage(request: ISendMessageRequest): AsyncIterable<ChatEvent>;
 }

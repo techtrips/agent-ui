@@ -7,13 +7,13 @@ import {
 	Search20Regular,
 } from "@fluentui/react-icons";
 import { defineExtension } from "../types";
-import type { ExtensionProps } from "../types";
+import type { IExtensionProps } from "../types";
 import { PageLayout } from "../shared/page-layout";
 import { useStarterPromptsStyles } from "./StarterPrompts.styles";
 import { useStarterPrompts } from "./useStarterPrompts";
 import { StarterPromptForm } from "./StarterPromptForm";
 
-const StarterPromptsPanel = ({ onClose }: ExtensionProps) => {
+const StarterPromptsPanel = ({ onClose }: IExtensionProps) => {
 	const classes = useStarterPromptsStyles();
 	const {
 		service,

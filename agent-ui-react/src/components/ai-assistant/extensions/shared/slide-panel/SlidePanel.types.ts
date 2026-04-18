@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 
-export interface SlidePanelButtons {
+export interface ISlidePanelButtons {
 	submitLabel?: string;
 	cancelLabel?: string;
 	submitDisabled?: boolean;
@@ -8,11 +8,11 @@ export interface SlidePanelButtons {
 	onCancel?: () => void;
 }
 
-export interface SlidePanelProps {
+export interface ISlidePanelProps {
 	title: string;
 	icon?: ReactNode;
 	children: ReactNode;
-	buttons?: SlidePanelButtons;
+	buttons?: ISlidePanelButtons;
 	disabled?: boolean;
 	error?: string;
 	onClose?: () => void;

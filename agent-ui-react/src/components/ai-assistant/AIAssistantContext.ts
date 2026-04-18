@@ -1,25 +1,26 @@
 import { createContext, useContext } from "react";
-import type { ChatMessage } from "./AIAssistant.types";
+import type { IChatMessage } from "./AIAssistant.types";
 import type { AIAssistantPermission } from "./AIAssistant.types";
-import type { AIAssistantAgent } from "./AIAssistant.types";
-import type { AIAssistantService, StarterPrompt } from "./AIAssistant.types";
+import type { IAIAssistantAgent } from "./AIAssistant.types";
+import type { IStarterPrompt } from "./AIAssistant.types";
+import type { IAIAssistantService } from "./AIAssistant.services";
 
-export interface AIAssistantContextValue {
+export interface IAIAssistantContextValue {
 	sendMessage: (text: string) => void;
 	newChat: () => void;
-	messages: ChatMessage[];
-	setMessages: (messages: ChatMessage[]) => void;
-	service?: AIAssistantService;
+	messages: IChatMessage[];
+	setMessages: (messages: IChatMessage[]) => void;
+	service?: IAIAssistantService;
 	permissions?: AIAssistantPermission[];
-	agents?: AIAssistantAgent[];
-	starterPrompts: StarterPrompt[];
+	agents?: IAIAssistantAgent[];
+	starterPrompts: IStarterPrompt[];
 }
 
 export const AIAssistantContext = createContext<
-	AIAssistantContextValue | undefined
+	IAIAssistantContextValue | undefined
 >(undefined);
 
-export const useAIAssistantContext = (): AIAssistantContextValue => {
+export const useAIAssistantContext = (): IAIAssistantContextValue => {
 	const ctx = useContext(AIAssistantContext);
 	if (!ctx)
 		throw new Error("useAIAssistantContext must be used within <AIAssistant>");

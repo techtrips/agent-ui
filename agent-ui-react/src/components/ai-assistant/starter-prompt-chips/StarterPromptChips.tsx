@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useAIAssistantContext } from "../AIAssistantContext";
-import type { StarterPrompt } from "../AIAssistant.types";
+import type { IStarterPrompt } from "../AIAssistant.types";
 import { useStarterPromptChipsStyles } from "./StarterPromptChips.styles";
 
 const VISIBLE_COUNT = 10;
@@ -58,7 +58,7 @@ export const StarterPromptChips = () => {
 	}, [showOverflow]);
 
 	const handleSelect = useCallback(
-		(prompt: StarterPrompt) => {
+		(prompt: IStarterPrompt) => {
 			const message = prompt.prompt ?? prompt.title;
 			sendMessage(message);
 		},

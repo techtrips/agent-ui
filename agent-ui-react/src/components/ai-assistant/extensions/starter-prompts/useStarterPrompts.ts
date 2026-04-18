@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { useAIAssistantContext } from "../../AIAssistantContext";
 import { AIAssistantPermission } from "../../AIAssistant.types";
 import { checkPermission } from "../../AIAssistant.utils";
-import type { StarterPrompt } from "../../AIAssistant.types";
+import type { IStarterPrompt } from "../../AIAssistant.types";
 import { extractParameters, normalizeList } from "./StarterPrompts.models";
 
 export const useStarterPrompts = () => {
@@ -12,18 +12,18 @@ export const useStarterPrompts = () => {
 		AIAssistantPermission.ManageStarterPrompts,
 	);
 
-	const [prompts, setPrompts] = useState<StarterPrompt[]>([]);
+	const [prompts, setPrompts] = useState<IStarterPrompt[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | undefined>();
 	const [searchQuery, setSearchQuery] = useState("");
 
 	const [panelTarget, setPanelTarget] = useState<
-		StarterPrompt | null | undefined
+		IStarterPrompt | null | undefined
 	>(null);
 	const [saving, setSaving] = useState(false);
 	const [panelError, setPanelError] = useState("");
 
-	const [deleteTarget, setDeleteTarget] = useState<StarterPrompt | null>(null);
+	const [deleteTarget, setDeleteTarget] = useState<IStarterPrompt | null>(null);
 	const [deleting, setDeleting] = useState(false);
 	const [deleteError, setDeleteError] = useState("");
 
@@ -60,7 +60,7 @@ export const useStarterPrompts = () => {
 	}, [prompts, searchQuery]);
 
 	const handleSave = useCallback(
-		async (prompt: StarterPrompt) => {
+		async (prompt: IStarterPrompt) => {
 			if (!service) return;
 			setSaving(true);
 			setPanelError("");
@@ -106,7 +106,7 @@ export const useStarterPrompts = () => {
 	}, [service, deleteTarget]);
 
 	const handleSelect = useCallback(
-		(prompt: StarterPrompt, onClose: () => void) => {
+		(prompt: IStarterPrompt, onClose: () => void) => {
 			if (prompt.prompt) {
 				sendMessage(prompt.prompt);
 				onClose();
@@ -120,7 +120,7 @@ export const useStarterPrompts = () => {
 		setPanelTarget(undefined);
 	}, []);
 
-	const openEditPanel = useCallback((prompt: StarterPrompt) => {
+	const openEditPanel = useCallback((prompt: IStarterPrompt) => {
 		setPanelError("");
 		setPanelTarget(prompt);
 	}, []);
@@ -129,7 +129,7 @@ export const useStarterPrompts = () => {
 		setPanelTarget(null);
 	}, []);
 
-	const openDeleteDialog = useCallback((prompt: StarterPrompt) => {
+	const openDeleteDialog = useCallback((prompt: IStarterPrompt) => {
 		setDeleteError("");
 		setDeleteTarget(prompt);
 	}, []);
