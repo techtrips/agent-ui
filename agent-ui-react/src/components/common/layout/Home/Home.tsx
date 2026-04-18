@@ -80,6 +80,7 @@ export const Home = () => {
 							alignItems: "center",
 							justifyContent: "center",
 							height: "100%",
+							flex: 1,
 							color: "#c4314b",
 							fontSize: "0.9rem",
 							padding: "24px",
@@ -89,12 +90,22 @@ export const Home = () => {
 						{loginError}
 					</div>
 				) : (
-					<AIAssistant
-						adapter={adapter}
-						extensions={extensions}
-						service={assistantService}
-						agents={HOME_ASSISTANT_AGENTS}						
-					/>
+					<>
+						<div className={classes.mainArea} />
+						<div
+							className={mergeClasses(
+								classes.assistantContainer,
+								!isAssistantVisible && classes.assistantContainerHidden,
+							)}
+						>
+							<AIAssistant
+								adapter={adapter}
+								extensions={extensions}
+								service={assistantService}
+								agents={HOME_ASSISTANT_AGENTS}
+							/>
+						</div>
+					</>
 				)}
 			</div>
 		</div>

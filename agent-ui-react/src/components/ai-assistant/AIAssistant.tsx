@@ -24,6 +24,7 @@ import { ChatArea } from "./chat-area";
 import { ChatInput } from "./chat-input";
 import { StarterPromptChips } from "./starter-prompt-chips";
 import { SidebarChatHistory } from "./sidebar-chat-history";
+import { useResizePanel } from "./useResizePanel";
 import type { IStarterPrompt } from "./AIAssistant.types";
 
 const EXTENSION_PERMISSIONS: Record<string, AIAssistantPermission> = {
@@ -62,6 +63,13 @@ export const AIAssistant = ({
 	} = useChatState(adapter);
 
 	const [starterPrompts, setStarterPrompts] = useState<IStarterPrompt[]>([]);
+
+	const isSidePanel = !isFullScreen;
+	const {
+		width: sidePanelWidth,
+		isResizing,
+		onResizeStart,
+	} = useResizePanel(isSidePanel);
 
 	const agentNames = useMemo(() => agents?.map((a) => a.name), [agents]);
 
@@ -220,8 +228,26 @@ export const AIAssistant = ({
 					className ?? classes.root,
 					isFullScreen && classes.rootFullScreen,
 				)}
-				style={themeVars}
+				style={{
+					...themeVars,
+					...(isSidePanel ? { width: sidePanelWidth } : undefined),
+				}}
 			>
+				{/* Resize handle — side-panel only */}
+				{isSidePanel && (
+					<div
+						className={mergeClasses(
+							classes.resizeHandle,
+							isResizing && classes.resizeHandleActive,
+						)}
+						role="separator"
+						aria-label="Resize chat panel"
+						aria-orientation="vertical"
+						title="Drag to resize"
+						onPointerDown={onResizeStart}
+					/>
+				)}
+
 				{/* Header bar */}
 				<div className={classes.header}>
 					<span className={classes.headerTitle}>{headerText}</span>

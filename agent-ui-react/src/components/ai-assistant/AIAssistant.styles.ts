@@ -9,9 +9,11 @@ export const useAIAssistantStyles = makeStyles({
 		height: "100%",
 		width: "100%",
 		minHeight: 0,
+		position: "relative",
 		backgroundColor: "var(--agent-chat-bg)",
 		color: "var(--agent-chat-fg)",
 		overflow: "hidden",
+		...shorthands.borderLeft("1px", "solid", "var(--agent-chat-border)"),
 	},
 	rootFullScreen: {
 		position: "absolute",
@@ -20,6 +22,43 @@ export const useAIAssistantStyles = makeStyles({
 		right: 0,
 		bottom: 0,
 		zIndex: 10,
+		borderLeftWidth: 0,
+	},
+	/* ── Resize handle (side-panel only) ── */
+	resizeHandle: {
+		width: "6px",
+		position: "absolute",
+		left: "-4px",
+		top: 0,
+		bottom: 0,
+		cursor: "col-resize",
+		touchAction: "none",
+		zIndex: 5,
+		backgroundColor: "transparent",
+		":before": {
+			content: '""',
+			position: "absolute",
+			left: "50%",
+			top: "50%",
+			transform: "translate(-50%, -50%)",
+			width: "2px",
+			height: "36px",
+			borderRadius: "999px",
+			backgroundColor: "var(--agent-chat-border)",
+			transitionProperty: "background-color",
+			transitionDuration: "0.2s",
+		},
+		":hover:before": {
+			backgroundColor: "var(--agent-chat-muted)",
+		},
+		"@media (max-width: 900px)": {
+			display: "none",
+		},
+	},
+	resizeHandleActive: {
+		":before": {
+			backgroundColor: "var(--agent-chat-brand)",
+		},
 	},
 	immersiveLayout: {
 		display: "flex",
