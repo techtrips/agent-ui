@@ -49,7 +49,12 @@ export const useAutoScroll = (messageCount: number) => {
 			}
 		});
 		ro.observe(el);
-		Array.from(el.children).forEach((child) => ro.observe(child));
+		Array.from(el.children).forEach((child) => {
+			ro.observe(child);
+			// Also observe grandchildren so resolved content inside
+			// LazyMessage / Shadow DOM triggers scroll-to-bottom.
+			Array.from(child.children).forEach((gc) => ro.observe(gc));
+		});
 		roRef.current = ro;
 
 		const mo = new MutationObserver((mutations) => {
@@ -57,6 +62,9 @@ export const useAutoScroll = (messageCount: number) => {
 				mutation.addedNodes.forEach((node) => {
 					if (node instanceof HTMLElement && roRef.current) {
 						roRef.current.observe(node);
+						Array.from(node.children).forEach((gc) => {
+							if (gc instanceof HTMLElement) roRef.current!.observe(gc);
+						});
 					}
 				});
 			}
@@ -64,7 +72,7 @@ export const useAutoScroll = (messageCount: number) => {
 				elRef.current.scrollTop = elRef.current.scrollHeight;
 			}
 		});
-		mo.observe(el, { childList: true });
+		mo.observe(el, { childList: true, subtree: true });
 		moRef.current = mo;
 	}, []);
 
