@@ -56,6 +56,14 @@ export default defineConfig({
 		new rspack.HtmlRspackPlugin({
 			template: "./public/index.html",
 		}),
+		new rspack.DefinePlugin({
+			"process.env.NODE_ENV": JSON.stringify(
+				process.env.NODE_ENV || "development",
+			),
+		}),
+		new rspack.ProvidePlugin({
+			process: "process/browser.js",
+		}),
 		isDev ? new ReactRefreshRspackPlugin() : null,
 	],
 	optimization: {
@@ -68,5 +76,8 @@ export default defineConfig({
 	},
 	experiments: {
 		css: true,
+	},
+	node: {
+		global: true,
 	},
 });

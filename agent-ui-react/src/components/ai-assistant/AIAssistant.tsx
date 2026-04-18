@@ -55,6 +55,8 @@ export const AIAssistant = ({
 	const {
 		messages,
 		setMessages,
+		threadId,
+		setThreadId,
 		isStreaming,
 		streamingText,
 		sendMessage,
@@ -86,6 +88,8 @@ export const AIAssistant = ({
 			newChat,
 			messages,
 			setMessages,
+			threadId,
+			setThreadId,
 			service,
 			permissions,
 			agents,
@@ -96,6 +100,8 @@ export const AIAssistant = ({
 			newChat,
 			messages,
 			setMessages,
+			threadId,
+			setThreadId,
 			service,
 			permissions,
 			agents,
@@ -204,18 +210,34 @@ export const AIAssistant = ({
 		}
 		return (
 			<div className={classes.welcomeContainer}>
-				<h1 className={classes.welcomeHeading}>
-					<span className={classes.welcomeHeadingStrong}>Hello,</span>
-					{greetingText ?? "How can I assist you?"}
-				</h1>
-				<div className={classes.welcomeComposerContainer}>
-					<ChatInput
-						isStreaming={isStreaming}
-						onSend={sendMessage}
-						onAbort={abort}
-						starterPrompts={starterPrompts}
+				<div className={classes.welcomeCenter}>
+					<SparkleRegular
+						className={classes.welcomeIcon}
+						fontSize={isFullScreen ? 48 : 40}
 					/>
-					<StarterPromptChips />
+					<h1
+						className={mergeClasses(
+							classes.welcomeHeading,
+							isFullScreen && classes.welcomeHeadingFullScreen,
+						)}
+					>
+						<span className={classes.welcomeHeadingStrong}>Hello,</span>
+						{greetingText ?? "How can I assist you?"}
+					</h1>
+					<div
+						className={mergeClasses(
+							classes.welcomeComposer,
+							isFullScreen && classes.welcomeComposerFullScreen,
+						)}
+					>
+						<ChatInput
+							isStreaming={isStreaming}
+							onSend={sendMessage}
+							onAbort={abort}
+							starterPrompts={starterPrompts}
+						/>
+						<StarterPromptChips />
+					</div>
 				</div>
 			</div>
 		);

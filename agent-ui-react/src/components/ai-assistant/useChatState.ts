@@ -11,6 +11,7 @@ export interface IUseChatStateResult {
 	messages: IChatMessage[];
 	setMessages: (messages: IChatMessage[]) => void;
 	threadId: string;
+	setThreadId: (id: string) => void;
 	isStreaming: boolean;
 	streamingText: string;
 	error: string | undefined;
@@ -148,6 +149,7 @@ export const useChatState = (adapter: IChatAdapter): IUseChatStateResult => {
 		messages,
 		setMessages,
 		threadId,
+		setThreadId,
 		isStreaming,
 		streamingText,
 		error,

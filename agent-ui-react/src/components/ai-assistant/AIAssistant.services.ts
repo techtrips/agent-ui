@@ -154,20 +154,134 @@ export class AIAssistantService implements IAIAssistantService {
 		threadId: string,
 	): Promise<IEntity<IChatMessage[]>> {
 		const result = await this.fetchApi<
-			{ id?: string; messageText: string; role: string; timestamp: string }[]
+			{
+				id?: string;
+				messageText: string;
+				serializedMessage?: string;
+				role: string;
+				timestamp: string;
+			}[]
 		>(`/conversations/${threadId}/messages`, "GET");
 		if (result.error || !result.data)
 			return { error: result.error, loading: result.loading };
-		return {
-			data: result.data
-				.filter((m) => m.role !== "system")
-				.map((m) => ({
-					id:
-						m.id ?? `msg-${Date.now()}-${Math.random().toString(36).slice(2)}`,
-					role: m.role as "user" | "assistant",
-					content: m.messageText,
-					timestamp: m.timestamp,
-				})),
-		};
+
+		// Merge tool call messages into the final text response — mirrors how
+		// the live AG-UI adapter accumulates tool calls across a turn and
+		// attaches them to the text-done event as `data: { toolCalls: [...] }`.
+		const messages: IChatMessage[] = [];
+		const pendingToolCalls = new Map<
+			string,
+			{ id: string; name: string; args?: string; result?: string }
+		>();
+
+		for (const m of result.data) {
+			if (m.role === "system" || m.role === "tool") continue;
+
+			const parsed = m.serializedMessage
+				? this.parseSerialized(m.serializedMessage)
+				: null;
+
+			// Accumulate function calls and results without emitting a message
+			if (parsed?.onlyToolContent) {
+				for (const tc of parsed.toolCalls) {
+					const existing = pendingToolCalls.get(tc.id);
+					if (existing) {
+						if (tc.args) existing.args = tc.args;
+						if (tc.result) existing.result = tc.result;
+					} else {
+						pendingToolCalls.set(tc.id, { ...tc });
+					}
+				}
+				for (const tr of parsed.toolResults) {
+					const existing = pendingToolCalls.get(tr.id);
+					if (existing) {
+						existing.result = tr.result;
+					}
+				}
+				continue;
+			}
+
+			// Skip empty messages with no content
+			if (!m.messageText && !parsed?.hasText) continue;
+
+			// Attach any accumulated tool calls to this text message
+			let data: Record<string, unknown> | undefined;
+			const msgToolCalls = parsed?.toolCalls ?? [];
+			const allToolCalls = [...pendingToolCalls.values(), ...msgToolCalls];
+			if (allToolCalls.length > 0) {
+				data = { toolCalls: allToolCalls };
+				pendingToolCalls.clear();
+			}
+
+			messages.push({
+				id: m.id ?? `msg-${Date.now()}-${Math.random().toString(36).slice(2)}`,
+				role: m.role as "user" | "assistant",
+				content: m.messageText,
+				timestamp: m.timestamp,
+				data,
+			});
+		}
+
+		return { data: messages };
+	}
+
+	/**
+	 * Parses a serialized Microsoft.Extensions.AI ChatMessage and extracts
+	 * tool call info plus flags about the content composition.
+	 */
+	private parseSerialized(serialized: string) {
+		try {
+			const msg = JSON.parse(serialized);
+			const contents: unknown[] = msg?.contents ?? [];
+			if (!Array.isArray(contents)) return null;
+
+			const toolCalls: {
+				id: string;
+				name: string;
+				args?: string;
+				result?: string;
+			}[] = [];
+			const toolResults: { id: string; result: string }[] = [];
+			let hasText = false;
+			let hasFunctionCall = false;
+			let hasFunctionResult = false;
+
+			for (const item of contents as Record<string, unknown>[]) {
+				const type = (item?.$type as string) ?? "";
+				if (type === "text" || type.includes("Text")) {
+					const text = item?.text as string;
+					if (text?.trim()) hasText = true;
+				}
+				if (
+					(type === "functionCall" || type.includes("FunctionCall")) &&
+					item?.callId
+				) {
+					hasFunctionCall = true;
+					toolCalls.push({
+						id: item.callId as string,
+						name: (item.name as string) ?? "",
+						args: item.arguments ? JSON.stringify(item.arguments) : undefined,
+					});
+				}
+				if (
+					(type === "functionResult" || type.includes("FunctionResult")) &&
+					item?.callId
+				) {
+					hasFunctionResult = true;
+					const result =
+						typeof item.result === "string"
+							? item.result
+							: JSON.stringify(item.result);
+					toolResults.push({ id: item.callId as string, result });
+				}
+			}
+
+			const onlyToolContent =
+				(hasFunctionCall || hasFunctionResult) && !hasText;
+
+			return { toolCalls, toolResults, hasText, onlyToolContent };
+		} catch {
+			return null;
+		}
 	}
 }

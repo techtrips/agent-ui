@@ -20,11 +20,11 @@ export const useChatAreaStyles = makeStyles({
 		width: "100%",
 		maxWidth: "920px",
 		alignSelf: "center",
-		...shorthands.padding("20px", "24px", "12px"),
+		...shorthands.padding("12px", "8px", "8px"),
 		boxSizing: "border-box",
 		display: "flex",
 		flexDirection: "column",
-		...shorthands.gap("18px"),
+		...shorthands.gap("10px"),
 	},
 	typingIndicator: {
 		display: "inline-flex",

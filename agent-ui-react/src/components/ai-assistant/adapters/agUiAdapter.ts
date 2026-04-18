@@ -70,17 +70,27 @@ export const agUiAdapter = (options: AgUiAdapterOptions): IChatAdapter => {
 				}
 			};
 
+			let textEndReceived = false;
+			let streamedText = "";
+			const toolCalls = new Map<
+				string,
+				{
+					id: string;
+					name: string;
+					args?: string;
+					result?: string;
+				}
+			>();
+
 			const subscriber: AgentSubscriber = {
 				onTextMessageStartEvent: () => {},
 				onTextMessageContentEvent: (params) => {
-					push({ type: "text-delta", content: params.event.delta ?? "" });
+					const delta = params.event.delta ?? "";
+					streamedText += delta;
+					push({ type: "text-delta", content: delta });
 				},
-				onTextMessageEndEvent: (params) => {
-					push({
-						type: "text-done",
-						content: params.textMessageBuffer ?? "",
-						data: buildData(),
-					});
+				onTextMessageEndEvent: () => {
+					textEndReceived = true;
 				},
 				onRunErrorEvent: (params) => {
 					push({ type: "error", message: params.event.message });
@@ -128,19 +138,17 @@ export const agUiAdapter = (options: AgUiAdapterOptions): IChatAdapter => {
 			const runPromise = agent
 				.runAgent({ abortController }, subscriber)
 				.then((result) => {
-					// Extract final assistant text from newMessages if available
-					const msgs = result.newMessages ?? [];
-					const assistantText = msgs
-						.filter((m: Message) => m.role === "assistant")
-						.map((m: Message) => (m as { content?: string }).content ?? "")
-						.join("\n")
-						.trim();
-					if (assistantText) {
-						push({
-							type: "text-done",
-							content: assistantText,
-							data: buildData(),
-						});
+					// If streaming didn't deliver text, use newMessages as fallback
+					if (!textEndReceived) {
+						const msgs = result.newMessages ?? [];
+						const assistantText = msgs
+							.filter((m: Message) => m.role === "assistant")
+							.map((m: Message) => (m as { content?: string }).content ?? "")
+							.join("\n")
+							.trim();
+						if (assistantText) {
+							streamedText = assistantText;
+						}
 					}
 				})
 				.catch((err: Error) => {
@@ -149,6 +157,13 @@ export const agUiAdapter = (options: AgUiAdapterOptions): IChatAdapter => {
 					}
 				})
 				.finally(() => {
+					if (streamedText) {
+						push({
+							type: "text-done",
+							content: streamedText,
+							data: buildData(),
+						});
+					}
 					finished = true;
 					push(null);
 				});

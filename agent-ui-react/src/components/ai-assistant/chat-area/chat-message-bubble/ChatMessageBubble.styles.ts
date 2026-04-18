@@ -5,7 +5,7 @@ export const useChatMessageBubbleStyles = makeStyles({
 		display: "flex",
 		flexDirection: "column",
 		alignItems: "flex-end",
-		...shorthands.gap("4px"),
+		...shorthands.gap("2px"),
 	},
 	userTime: {
 		fontSize: tokens.fontSizeBase100,
@@ -28,7 +28,7 @@ export const useChatMessageBubbleStyles = makeStyles({
 		display: "flex",
 		flexDirection: "column",
 		alignItems: "flex-start",
-		...shorthands.gap("6px"),
+		...shorthands.gap("2px"),
 	},
 	assistantPreamble: {
 		display: "flex",
@@ -54,7 +54,7 @@ export const useChatMessageBubbleStyles = makeStyles({
 		backgroundColor: "var(--agent-chat-card)",
 		...shorthands.border("1px", "solid", "var(--agent-chat-border)"),
 		...shorthands.borderRadius("4px", "16px", "16px", "16px"),
-		...shorthands.padding("12px", "16px"),
+		...shorthands.padding("10px", "16px"),
 		boxSizing: "border-box",
 	},
 	assistantBubble: {

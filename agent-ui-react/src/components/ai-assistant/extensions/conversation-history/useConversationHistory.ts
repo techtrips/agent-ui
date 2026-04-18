@@ -3,7 +3,8 @@ import { useAIAssistantContext } from "../../AIAssistantContext";
 import type { IConversation } from "../../AIAssistant.types";
 
 export const useConversationHistory = () => {
-	const { service, newChat, setMessages } = useAIAssistantContext();
+	const { service, newChat, setMessages, setThreadId } =
+		useAIAssistantContext();
 	const [conversations, setConversations] = useState<IConversation[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | undefined>();
@@ -43,11 +44,12 @@ export const useConversationHistory = () => {
 				conversation.threadId,
 			);
 			if (result.data) {
+				setThreadId(conversation.threadId);
 				setMessages(result.data);
 			}
 			onClose();
 		},
-		[service, setMessages],
+		[service, setMessages, setThreadId],
 	);
 
 	const handleNewChat = useCallback(

@@ -234,25 +234,41 @@ export const useAIAssistantStyles = makeStyles({
 		display: "flex",
 		flexDirection: "column",
 		alignItems: "center",
-		justifyContent: "center",
-		...shorthands.gap("24px"),
-		...shorthands.padding("24px", "16px", "32px"),
 		boxSizing: "border-box",
+		overflow: "hidden",
+	},
+	welcomeCenter: {
+		flex: 1,
+		display: "flex",
+		flexDirection: "column",
+		alignItems: "center",
+		justifyContent: "center",
+		...shorthands.gap("20px"),
+		...shorthands.padding("24px", "16px"),
+		width: "100%",
+		boxSizing: "border-box",
+	},
+	welcomeIcon: {
+		color: "var(--agent-chat-brand)",
+		opacity: 0.85,
 	},
 	welcomeHeading: {
 		marginTop: 0,
 		marginBottom: 0,
 		textAlign: "center",
-		fontSize: "34px",
-		lineHeight: "1.22",
+		fontSize: "28px",
+		lineHeight: "1.25",
 		fontWeight: tokens.fontWeightRegular,
 		color: "var(--agent-chat-muted)",
 		letterSpacing: "-0.01em",
-		"@media (max-width: 900px)": {
-			fontSize: "28px",
-		},
 		"@media (max-width: 640px)": {
-			fontSize: "24px",
+			fontSize: "22px",
+		},
+	},
+	welcomeHeadingFullScreen: {
+		fontSize: "38px",
+		"@media (max-width: 900px)": {
+			fontSize: "30px",
 		},
 	},
 	welcomeHeadingStrong: {
@@ -260,15 +276,16 @@ export const useAIAssistantStyles = makeStyles({
 		color: "var(--agent-chat-fg)",
 		marginRight: "8px",
 	},
-	welcomeComposerContainer: {
+	welcomeComposer: {
 		width: "100%",
-		maxWidth: "980px",
-		alignSelf: "center",
+		maxWidth: "640px",
 		display: "flex",
 		flexDirection: "column",
 		alignItems: "center",
-		...shorthands.gap("18px"),
-		...shorthands.padding("0", "12px", "24px"),
-		boxSizing: "border-box",
+		...shorthands.gap("14px"),
+		marginTop: "8px",
+	},
+	welcomeComposerFullScreen: {
+		maxWidth: "780px",
 	},
 });

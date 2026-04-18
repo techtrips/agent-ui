@@ -10,6 +10,8 @@ export interface IAIAssistantContextValue {
 	newChat: () => void;
 	messages: IChatMessage[];
 	setMessages: (messages: IChatMessage[]) => void;
+	threadId: string;
+	setThreadId: (id: string) => void;
 	service?: IAIAssistantService;
 	permissions?: AIAssistantPermission[];
 	agents?: IAIAssistantAgent[];

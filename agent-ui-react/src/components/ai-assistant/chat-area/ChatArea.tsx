@@ -1,7 +1,7 @@
 import { mergeClasses } from "@fluentui/react-components";
 import { SparkleRegular } from "@fluentui/react-icons";
 import { ChatMessageBubble } from "./chat-message-bubble";
-import { useChatMessageBubbleStyles } from "./chat-message-bubble";
+import { useChatMessageBubbleStyles, formatTime } from "./chat-message-bubble";
 import { useAutoScroll } from "./useAutoScroll";
 import { useChatAreaStyles } from "./ChatArea.styles";
 import type { IChatAreaProps } from "./ChatArea.types";
@@ -34,7 +34,7 @@ export const ChatArea = ({
 							<SparkleRegular fontSize={18} />
 						</span>
 						{streamingText ? (
-							<span>{""}</span>
+							<span>{formatTime(new Date().toISOString())}</span>
 						) : (
 							<div className={classes.typingIndicator}>
 								{TYPING_DOT_CLASSES.map((cls) => (
