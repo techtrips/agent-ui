@@ -48,11 +48,34 @@ export const normalizeGeneratedHtml = (raw: string): string => {
 };
 
 /**
+ * Returns true when the message should go through the rendering pipeline.
+ * Any assistant message with content qualifies — the pipeline falls back
+ * to raw text if dynamic UI generation isn't possible.
+ */
+export const needsResolution = (message: IChatMessage): boolean =>
+	message.role === "assistant" && !!message.content?.trim();
+
+/**
  * In-flight / resolved cache keyed by message ID.
  * Guarantees exactly one HTTP request per message regardless of
  * how many times React calls resolveMessage (StrictMode, re-renders, etc.).
  */
-const resolveCache = new Map<string, Promise<string | undefined>>();
+const resolveCache = new Map<
+	string,
+	{ promise: Promise<string | undefined>; done: boolean; html?: string }
+>();
+
+/**
+ * Returns the synchronously-available resolved HTML for a message,
+ * or undefined if not yet resolved.
+ */
+export const getResolvedFromCache = (
+	messageId: string,
+): { html: string | undefined } | null => {
+	const entry = resolveCache.get(messageId);
+	if (entry?.done) return { html: entry.html };
+	return null;
+};
 
 /**
  * Resolves a single assistant message through the rendering pipeline:
@@ -71,10 +94,20 @@ export const resolveMessage = (
 	if (message.role !== "assistant") return Promise.resolve(undefined);
 
 	const existing = resolveCache.get(message.id);
-	if (existing) return existing;
+	if (existing) return existing.promise;
 
 	const promise = resolveMessageImpl(message, service, model);
-	resolveCache.set(message.id, promise);
+	const entry = { promise, done: false, html: undefined as string | undefined };
+	resolveCache.set(message.id, entry);
+	promise
+		.then((html) => {
+			entry.done = true;
+			entry.html = html;
+		})
+		.catch(() => {
+			entry.done = true;
+			entry.html = undefined;
+		});
 	return promise;
 };
 

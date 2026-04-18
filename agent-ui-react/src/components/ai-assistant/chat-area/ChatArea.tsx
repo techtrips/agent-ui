@@ -4,6 +4,7 @@ import { ChatMessageBubble } from "./chat-message-bubble";
 import { useChatMessageBubbleStyles, formatTime } from "./chat-message-bubble";
 import { useAutoScroll } from "./useAutoScroll";
 import { useChatAreaStyles } from "./ChatArea.styles";
+import { LazyMessage } from "./LazyMessage";
 import type { IChatAreaProps } from "./ChatArea.types";
 
 const TYPING_DOT_CLASSES = ["typingDot1", "typingDot2", "typingDot3"] as const;
@@ -18,14 +19,21 @@ export const ChatArea = ({
 	const msgClasses = useChatMessageBubbleStyles();
 	const { scrollRef } = useAutoScroll(messages.length);
 
+	const eagerThreshold = messages.length - 6;
+
 	return (
 		<div ref={scrollRef} className={classes.thread}>
-			{messages.map((message) => (
-				<ChatMessageBubble
+			{messages.map((message, index) => (
+				<LazyMessage
 					key={message.id}
-					message={message}
-					renderMessage={renderMessage}
-				/>
+					estimatedHeight={message.role === "user" ? 60 : 150}
+					eager={index >= eagerThreshold}
+				>
+					<ChatMessageBubble
+						message={message}
+						renderMessage={renderMessage}
+					/>
+				</LazyMessage>
 			))}
 			{isStreaming && (
 				<div className={msgClasses.assistantBlock}>

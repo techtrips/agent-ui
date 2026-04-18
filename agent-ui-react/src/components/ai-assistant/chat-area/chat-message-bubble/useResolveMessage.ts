@@ -1,7 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import type { IChatMessage } from "../../AIAssistant.types";
 import type { IAIAssistantService } from "../../AIAssistant.services";
-import { resolveMessage } from "../../AIAssistant.utils";
+import {
+	resolveMessage,
+	needsResolution,
+	getResolvedFromCache,
+} from "../../AIAssistant.utils";
 
 export interface IUseResolveMessageResult {
 	resolvedHtml: string | undefined;
@@ -13,50 +17,47 @@ export const useResolveMessage = (
 	service: IAIAssistantService | undefined,
 	hasCustomRenderer: boolean,
 ): IUseResolveMessageResult => {
-	const skip =
-		hasCustomRenderer ||
-		message.role !== "assistant" ||
-		!message.content?.trim();
+	const skip = hasCustomRenderer || !needsResolution(message) || !service;
 
-	const [resolvedHtml, setResolvedHtml] = useState<string | undefined>(
-		undefined,
+	// Read synchronously from the module-level cache — if already resolved
+	// (e.g. StrictMode remount), we skip the loading state entirely.
+	const cached = skip ? null : getResolvedFromCache(message.id);
+
+	const [result, setResult] = useState<{ html: string | undefined } | null>(
+		cached,
 	);
-	const [isLoading, setIsLoading] = useState(!skip);
+
+	// Derived — no state timing issues
+	const isLoading = !skip && result === null;
 
 	const serviceRef = useRef(service);
 	serviceRef.current = service;
 
 	useEffect(() => {
-		if (skip) {
-			setIsLoading(false);
+		if (skip) return;
+
+		const cached = getResolvedFromCache(message.id);
+		if (cached) {
+			setResult(cached);
 			return;
 		}
 
-		const svc = serviceRef.current;
-		if (!svc) return;
-
+		const svc = serviceRef.current!;
 		let disposed = false;
 
-		// resolveMessage deduplicates by message.id — safe to call multiple times
 		resolveMessage(message, svc)
 			.then((html) => {
-				if (!disposed) {
-					setResolvedHtml(html);
-					setIsLoading(false);
-				}
+				if (!disposed) setResult({ html });
 			})
 			.catch(() => {
-				if (!disposed) {
-					setResolvedHtml(undefined);
-					setIsLoading(false);
-				}
+				if (!disposed) setResult({ html: undefined });
 			});
 
 		return () => {
 			disposed = true;
 		};
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [message.id, skip, service]);
+	}, [message.id, skip]);
 
-	return { resolvedHtml, isLoading };
+	return { resolvedHtml: result?.html, isLoading };
 };

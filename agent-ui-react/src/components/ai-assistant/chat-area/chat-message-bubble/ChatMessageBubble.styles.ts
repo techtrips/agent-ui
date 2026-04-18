@@ -76,4 +76,19 @@ export const useChatMessageBubbleStyles = makeStyles({
 		color: "var(--colorPaletteRedForeground1, #c4314b)",
 		fontSize: "0.88rem",
 	},
+	skeletonLine: {
+		height: "14px",
+		...shorthands.borderRadius("4px"),
+		marginBottom: "8px",
+		backgroundImage:
+			"linear-gradient(90deg, var(--agent-chat-border) 25%, transparent 50%, var(--agent-chat-border) 75%)",
+		backgroundSize: "200% 100%",
+		animationName: {
+			from: { backgroundPositionX: "200%" },
+			to: { backgroundPositionX: "-200%" },
+		},
+		animationDuration: "1.5s",
+		animationIterationCount: "infinite",
+		animationTimingFunction: "ease-in-out",
+	},
 });

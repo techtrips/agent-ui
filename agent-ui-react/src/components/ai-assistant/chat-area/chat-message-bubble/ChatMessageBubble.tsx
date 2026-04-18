@@ -5,7 +5,6 @@ import type { IChatMessageBubbleProps } from "./ChatMessageBubble.types";
 import { IsolatedHtmlRenderer } from "./IsolatedHtmlRenderer";
 import { useResolveMessage } from "./useResolveMessage";
 import { useAIAssistantContext } from "../../AIAssistantContext";
-import { Skeleton, SkeletonItem } from "@fluentui/react-components";
 
 export const ChatMessageBubble = ({
 	message,
@@ -62,12 +61,10 @@ export const ChatMessageBubble = ({
 			{customContent ? (
 				<div className={classes.assistantCard}>{customContent}</div>
 			) : isLoading ? (
-				<div className={classes.assistantBubble}>
-					<Skeleton animation="pulse">
-						<SkeletonItem size={16} />
-						<SkeletonItem size={16} style={{ width: "75%" }} />
-						<SkeletonItem size={16} style={{ width: "50%" }} />
-					</Skeleton>
+				<div className={classes.assistantBubble} style={{ width: "calc(100% - 40px)" }}>
+					<div className={classes.skeletonLine} style={{ width: "100%" }} />
+					<div className={classes.skeletonLine} style={{ width: "75%" }} />
+					<div className={classes.skeletonLine} style={{ width: "50%" }} />
 				</div>
 			) : html ? (
 				<div className={classes.assistantCard}>

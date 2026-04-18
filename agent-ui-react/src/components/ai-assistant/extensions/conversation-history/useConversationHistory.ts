@@ -1,6 +1,10 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useAIAssistantContext } from "../../AIAssistantContext";
 import type { IConversation } from "../../AIAssistant.types";
+import type { IEntity } from "../../AIAssistant.services";
+
+/** Module-level dedup: one in-flight request at a time. */
+let inflightConversations: Promise<IEntity<IConversation[]>> | null = null;
 
 export const useConversationHistory = () => {
 	const { service, newChat, setMessages, setThreadId } =
@@ -15,7 +19,17 @@ export const useConversationHistory = () => {
 			setLoading(false);
 			return;
 		}
-		service.getConversationHistory().then((result) => {
+		let ignore = false;
+
+		if (!inflightConversations) {
+			inflightConversations = service.getConversationHistory();
+			inflightConversations.finally(() => {
+				inflightConversations = null;
+			});
+		}
+
+		inflightConversations.then((result) => {
+			if (ignore) return;
 			if (result.data) {
 				const sorted = [...result.data].sort(
 					(a, b) =>
@@ -27,6 +41,9 @@ export const useConversationHistory = () => {
 			if (result.error) setError(result.error);
 			setLoading(false);
 		});
+		return () => {
+			ignore = true;
+		};
 	}, [service]);
 
 	const filtered = useMemo(() => {
