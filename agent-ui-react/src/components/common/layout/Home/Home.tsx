@@ -1,17 +1,24 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { makeStyles, mergeClasses } from "@fluentui/react-components";
 import { SparkleRegular } from "@fluentui/react-icons";
 import { homeStyles } from "./Home.styles";
-import { AIAssistant } from "../../../ai-assistant/AIAssistant";
+import {
+	AIAssistant,
+	agUiAdapter,
+	ConversationHistory,
+	StarterPrompts,
+	TemplateRenderer,
+} from "../../../ai-assistant-v2";
+import { AIAssistant as AIAssistantV1 } from "../../../ai-assistant/AIAssistant";
 import {
 	AIAssistantDisplayMode,
 	IAssistantConfig,
 } from "../../../ai-assistant/AIAssistant.models";
-import { AppConfig } from "../../../../appConfig";
 import { HOME_ASSISTANT_AGENTS } from "./Home.models";
 import { useAssistantTemplates } from "../../../templates/useAssistantTemplates";
 import { mapRolesToPermissions } from "../../../auth-provider/AuthProvider.utils";
 import { AuthContext, AuthProvider } from "../../../auth-provider";
+import { AppConfig } from "../../../../appConfig";
 
 const useStyles = makeStyles(homeStyles);
 
@@ -19,12 +26,10 @@ const appConfig = AppConfig.getConfig();
 const aguiUrl = appConfig?.agentConfig.url ?? "";
 const apiBaseUrl = appConfig?.api.baseUrl ?? "";
 
-const AGENT_CONFIGURATION_ROLE = "agent.configuration";
 export const Home = () => {
 	const classes = useStyles();
 	const [isAssistantVisible, setIsAssistantVisible] = useState(true);
 	const [loginError, setLoginError] = useState<string>("");
-	const { getTemplate } = useAssistantTemplates();
 
 	const tokenRef = useRef<string>("");
 	const refreshTokenRef = useRef<string>("");
@@ -86,21 +91,25 @@ export const Home = () => {
 		return "";
 	}, []);
 
+	const adapter = useMemo(
+		() => agUiAdapter({ url: aguiUrl, getToken: getAccessToken }),
+		[getAccessToken],
+	);
+
 	const assistantConfig: IAssistantConfig = {
-		api: {
-			baseUrl: appConfig?.api.baseUrl ?? "",
-		},
-		agentConfig: {
-			url: aguiUrl,
-		},
+		api: { baseUrl: apiBaseUrl },
+		agentConfig: { url: aguiUrl },
 	};
+
+	const { getTemplate } = useAssistantTemplates();
+
+	const extensions = useMemo(
+		() => [ConversationHistory, StarterPrompts, TemplateRenderer],
+		[],
+	);
 
 	const handleToggleAssistant = useCallback(() => {
 		setIsAssistantVisible((isVisible) => !isVisible);
-	}, []);
-
-	const handleCloseAssistant = useCallback(() => {
-		setIsAssistantVisible(false);
 	}, []);
 
 	return (
@@ -140,30 +149,90 @@ export const Home = () => {
 					</div>
 				) : (
 					<div
-						className={mergeClasses(
-							classes.assistantContainer,
-							!isAssistantVisible && classes.assistantContainerHidden,
-						)}
+						style={{
+							display: "flex",
+							height: "100%",
+							gap: "1px",
+							backgroundColor: "#e0e0e0",
+							position: "relative",
+						}}
 					>
-						<AuthProvider config={assistantConfig} getToken={getAccessToken}>
-							<AuthContext.Consumer>
-								{(value) => (
-									<AIAssistant
-										config={assistantConfig}
-										getToken={getAccessToken}
-										displayMode={AIAssistantDisplayMode.FullScreen}
-										agents={HOME_ASSISTANT_AGENTS}
-										getTemplate={getTemplate}
-										onClosePanel={handleCloseAssistant}
-										userInfo={value?.userInfo}
-										permissions={mapRolesToPermissions(value?.roles, [
-											AGENT_CONFIGURATION_ROLE,
-										])}
-										// features={[AIAssistantFeature.ConversationHistory, AIAssistantFeature.StarterPrompts]}
-									/>
-								)}
-							</AuthContext.Consumer>
-						</AuthProvider>
+						{/* V2 — New simplified component (full-screen locked) */}
+						<div
+							style={{
+								flex: 1,
+								display: "flex",
+								flexDirection: "column",
+								overflow: "hidden",
+							}}
+						>
+							<div
+								style={{
+									textAlign: "center",
+									padding: "4px 0",
+									fontSize: "11px",
+									fontWeight: 600,
+									color: "#666",
+									backgroundColor: "#f5f5f5",
+									borderBottom: "1px solid #e0e0e0",
+								}}
+							>
+								V2 — ai-assistant-v2 (defaultFullScreen, no toggle)
+							</div>
+							<div style={{ flex: 1, overflow: "hidden" }}>
+								<AIAssistant
+									adapter={adapter}
+									extensions={extensions}
+									defaultFullScreen
+									//showFullScreenToggle={false}
+								/>
+							</div>
+						</div>
+						{/* V1 — Original component */}
+						<div
+							style={{
+								flex: 1,
+								display: "flex",
+								flexDirection: "column",
+								overflow: "hidden",
+							}}
+						>
+							<div
+								style={{
+									textAlign: "center",
+									padding: "4px 0",
+									fontSize: "11px",
+									fontWeight: 600,
+									color: "#666",
+									backgroundColor: "#f5f5f5",
+									borderBottom: "1px solid #e0e0e0",
+								}}
+							>
+								V1 — ai-assistant (original)
+							</div>
+							<div style={{ flex: 1, overflow: "hidden" }}>
+								<AuthProvider
+									config={assistantConfig}
+									getToken={getAccessToken}
+								>
+									<AuthContext.Consumer>
+										{(value) => (
+											<AIAssistantV1
+												config={assistantConfig}
+												getToken={getAccessToken}
+												displayMode={AIAssistantDisplayMode.FullScreen}
+												agents={HOME_ASSISTANT_AGENTS}
+												getTemplate={getTemplate}
+												userInfo={value?.userInfo}
+												permissions={mapRolesToPermissions(value?.roles, [
+													"agent.configuration",
+												])}
+											/>
+										)}
+									</AuthContext.Consumer>
+								</AuthProvider>
+							</div>
+						</div>
 					</div>
 				)}
 			</div>
