@@ -2,7 +2,7 @@
 	"name": "agent-ui-react",
 	"module": "lib/index.js",
 	"types": "lib/index.d.ts",
-	"version": "0.1.4",
+	"version": "0.1.6",
 	"scripts": {
 		"clean": "rimraf lib",
 		"build": "npm run clean && tsc -p tsconfig.prod.json",
@@ -10,6 +10,7 @@
 		"lint": "biome check .",
 		"format": "biome format .",
 		"lint-fix": "npx biome check . --write",
+		"versionupdate": "npm version patch",
 		"postversion": "node scripts/postversion.js && git add README.md docs/ChangeLog.md && git commit --amend --no-edit"
 	},
 	"dependencies": {

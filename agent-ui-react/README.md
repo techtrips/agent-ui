@@ -1,6 +1,6 @@
 # agent-ui-react
 
-[![version](https://img.shields.io/badge/version-0.1.5-blue.svg)](https://github.com/techtrips/agent-ui/blob/main/agent-ui-react/docs/ChangeLog.md)
+[![version](https://img.shields.io/badge/version-0.1.6-blue.svg)](https://github.com/techtrips/agent-ui/blob/main/agent-ui-react/docs/ChangeLog.md)
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/techtrips/agent-ui/blob/main/agent-ui-react/LICENSE)
 
 A React component library for building agent-based user interfaces. Provides production-ready components for conversational AI experiences, authentication, and template-driven data rendering — all built on [Fluent UI](https://react.fluentui.dev/) and the [AG-UI protocol](https://github.com/ag-ui-protocol).
@@ -24,6 +24,12 @@ A React component library for building agent-based user interfaces. Provides pro
 ## Features
 
 - Conversational AI assistant with multi-agent support and AG-UI protocol streaming
+- Dynamic UI generation — assistant messages rendered as styled HTML via Azure OpenAI
+- Voice input with Web Speech API integration
+- Lazy message loading with `IntersectionObserver` for performant chat history
+- Resizable side panel with drag-to-resize and responsive default widths
+- Mobile responsive layout — fullscreen overlay on small screens, side panel on desktop
+- Starter prompt chips for guided onboarding
 - JWT-based authentication with role-to-permission mapping
 - JSON-driven template rendering with 8 built-in control types and data binding
 - Visual template designer with drag-and-drop, live preview, and JSON editing
@@ -56,6 +62,8 @@ function App() {
         getAccessToken={getAccessToken}
         userInfo={{ name: "Jane", email: "jane@example.com" }}
         permissions={["chat", "templates"]}
+        displayMode="Copilot"
+        onClose={() => console.log("closed")}
       />
     </AuthProvider>
   );

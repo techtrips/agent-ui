@@ -8,8 +8,9 @@ All notable changes to `agent-ui-react` are documented here. The format follows 
 
 | Version | Date | Highlights |
 |---------|------|------------|
-| [0.1.5](#015--2026-04-19) | 2026-04-19 | - |
-| [0.1.4](#014--2026-04-19) | 2026-04-19 | - |
+| [0.1.6](#016--2026-04-19) | 2026-04-19 | - |
+| [0.1.7](#017--2026-04-19) | 2026-04-19 | - |
+| [0.1.5](#015--2026-04-19) | 2026-04-19 | AIAssistant new version created |
 | [0.1.4](#014--2026-03-31) | 2026-03-31 | Repository URL update |
 | [0.1.3](#013--2026-03-31) | 2026-03-31 | Postversion automation, absolute links for npm |
 | [0.1.2](#012--2026-03-31) | 2026-03-31 | README link fixes for npm, postversion script |
@@ -18,37 +19,70 @@ All notable changes to `agent-ui-react` are documented here. The format follows 
 
 ---
 
+## [0.1.6] — 2026-04-19
+
+### Added
+
+- _Update this section before publishing_
+
+### Changed
+
+- _Update this section before publishing_
+
+### Fixed
+
+- _Update this section before publishing_
+
+---
+
+## [0.1.7] — 2026-04-19
+
+### Added
+
+- _Update this section before publishing_
+
+### Changed
+
+- _Update this section before publishing_
+
+### Fixed
+
+- _Update this section before publishing_
+
+---
+
 ## [0.1.5] — 2026-04-19
 
 ### Added
 
-- _Update this section before publishing_
+- **AIAssistant** component — rebuilt with new architecture featuring chat functionality, sidebar conversation navigation, and context-based state management.
+- **Voice input** component with Web Speech API speech recognition hooks.
+- **Template Renderer** extension for managing and rendering structured templates.
+- **Dynamic UI generation** — `generateDynamicUi` pipeline that renders assistant messages as styled HTML via Azure OpenAI, with `IsolatedHtmlRenderer` for safe shadow-DOM display.
+- **Lazy message loading** (`LazyMessage`) using `IntersectionObserver` with 200px lookahead; last 6 messages render eagerly, older ones load on scroll.
+- **Resizable side panel** with drag-to-resize via `useResizePanel` hook.
+- **Starter prompt chips** for guided onboarding in the chat input area.
+- **Tool call handling** — accumulates tool calls from streamed messages and attaches them to assistant messages.
+- GitHub Actions workflow for automated npm publishing.
+- `CODEOWNERS` file requiring repo owner approval.
 
 ### Changed
 
-- _Update this section before publishing_
+- **Mobile responsive layout** — assistant renders as an absolute overlay on the content area (≤768px) while keeping the nav bar visible; fullscreen toggle hidden on mobile.
+- **Dynamic panel width** — `useResizePanel` defaults based on viewport width (520px on ≥1600, scaling down to 360px on <900).
+- **Auto-scroll** enhanced to observe grandchild elements and subtree mutations for more reliable scroll-to-bottom.
+- **Message resolution** uses module-level dedup cache (`resolveCache`) with `{promise, done, html}` to prevent duplicate API calls in StrictMode.
+- **Conversation history** loading uses in-flight promise dedup to avoid duplicate `/api/conversations` requests.
+- Code style consistency and readability refactoring across multiple files.
 
 ### Fixed
 
-- _Update this section before publishing_
+- Fixed `AgentSubscriber` import (moved from `@ag-ui/core` to `@ag-ui/client`).
+- Removed unused imports and variables (`tokens`, `handleKeyDown`, `extractParameters`, `normalizeList`, `Skeleton`).
+- Fixed Griffel `borderColor` type errors in `StarterPrompts.styles.ts` and `TemplateRenderer.styles.ts` by using `shorthands.borderColor()`.
 
 ---
 
-## [0.1.4] — 2026-04-19
-
-### Added
-
-- _Update this section before publishing_
-
-### Changed
-
-- _Update this section before publishing_
-
-### Fixed
-
-- _Update this section before publishing_
-
----
 
 ## [0.1.4] — 2026-03-31
 

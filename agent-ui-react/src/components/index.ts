@@ -1,3 +1,2 @@
-export * from "./ai-assistant-old";
-export * from "./auth-provider";
+export * from "./ai-assistant";
 export * from "./templates";
