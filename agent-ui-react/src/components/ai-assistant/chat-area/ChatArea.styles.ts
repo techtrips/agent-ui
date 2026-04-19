@@ -1,4 +1,4 @@
-import { makeStyles, shorthands, tokens } from "@fluentui/react-components";
+import { makeStyles, shorthands } from "@fluentui/react-components";
 
 const typingBounce = {
 	"0%, 80%, 100%": {

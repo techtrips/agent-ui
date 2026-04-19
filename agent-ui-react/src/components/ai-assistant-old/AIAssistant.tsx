@@ -13,7 +13,7 @@ import { mergeClasses } from "@fluentui/react-components";
 const resolveDisplayMode = (displayMode?: AIAssistantDisplayMode) =>
 	displayMode ?? AIAssistantDisplayMode.FullScreen;
 
-export const AIAssistant = (props: IAIAssistantProps) => {
+export const AIAssistantOld = (props: IAIAssistantProps) => {
 	const {
 		theme,
 		displayMode,

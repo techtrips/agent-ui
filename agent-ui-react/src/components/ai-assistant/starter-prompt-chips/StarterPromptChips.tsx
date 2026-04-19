@@ -4,34 +4,6 @@ import type { IStarterPrompt } from "../AIAssistant.types";
 import { useStarterPromptChipsStyles } from "./StarterPromptChips.styles";
 
 const VISIBLE_COUNT = 10;
-const SHIMMER_ROW_1 = [190, 160, 175, 165, 155];
-const SHIMMER_ROW_2 = [125, 105, 150, 180, 120, 70];
-
-const Skeleton = () => {
-	const classes = useStarterPromptChipsStyles();
-	return (
-		<div className={classes.skeletonContainer}>
-			<div className={classes.skeletonRow}>
-				{SHIMMER_ROW_1.map((w, i) => (
-					<div
-						key={`r1-${i}`}
-						className={classes.shimmerChip}
-						style={{ width: `${w}px` }}
-					/>
-				))}
-			</div>
-			<div className={classes.skeletonRow}>
-				{SHIMMER_ROW_2.map((w, i) => (
-					<div
-						key={`r2-${i}`}
-						className={classes.shimmerChip}
-						style={{ width: `${w}px` }}
-					/>
-				))}
-			</div>
-		</div>
-	);
-};
 
 export const StarterPromptChips = () => {
 	const classes = useStarterPromptChipsStyles();

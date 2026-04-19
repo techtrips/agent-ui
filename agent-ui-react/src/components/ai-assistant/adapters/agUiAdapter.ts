@@ -1,5 +1,6 @@
 import { HttpAgent } from "@ag-ui/client";
-import type { RunAgentInput, Message, AgentSubscriber } from "@ag-ui/core";
+import type { AgentSubscriber } from "@ag-ui/client";
+import type { RunAgentInput, Message } from "@ag-ui/core";
 import type { IChatAdapter, ChatEvent, ISendMessageRequest } from "./types";
 
 interface AgUiAdapterOptions {

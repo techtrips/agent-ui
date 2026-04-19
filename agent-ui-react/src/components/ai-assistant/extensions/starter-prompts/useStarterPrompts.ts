@@ -3,7 +3,6 @@ import { useAIAssistantContext } from "../../AIAssistantContext";
 import { AIAssistantPermission } from "../../AIAssistant.types";
 import { checkPermission } from "../../AIAssistant.utils";
 import type { IStarterPrompt } from "../../AIAssistant.types";
-import { extractParameters, normalizeList } from "./StarterPrompts.models";
 
 export const useStarterPrompts = () => {
 	const { service, permissions, sendMessage, agents } = useAIAssistantContext();

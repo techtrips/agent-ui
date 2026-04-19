@@ -34,16 +34,6 @@ export const useChatInput = (
 		setValue("");
 	}, [value, isStreaming, onSend]);
 
-	const handleKeyDown = useCallback(
-		(e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-			if (e.key === "Enter" && !e.shiftKey) {
-				e.preventDefault();
-				handleSend();
-			}
-		},
-		[handleSend],
-	);
-
 	const handleAttachClick = useCallback(() => {
 		fileInputRef.current?.click();
 	}, []);

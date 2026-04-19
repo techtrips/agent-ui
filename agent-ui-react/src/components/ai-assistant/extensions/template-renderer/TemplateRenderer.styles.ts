@@ -208,7 +208,7 @@ export const useTemplateRendererStyles = makeStyles({
 	dialogButtonDanger: {
 		backgroundColor: tokens.colorPaletteRedBackground3,
 		color: tokens.colorNeutralForegroundOnBrand,
-		borderColor: tokens.colorPaletteRedBackground3,
+		...shorthands.borderColor(tokens.colorPaletteRedBackground3),
 		":hover": { opacity: 0.9 },
 	},
 	errorBanner: {
